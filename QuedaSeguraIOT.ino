@@ -17,15 +17,28 @@
 
 #include <WiFi.h>
 #include <WiFiClient.h>
+#include <HTTPClient.h>
 
-
+#include <env.h>
 
 void setup(){
   Serial.begin(115200);
-  Serial.println("-- Bem Vindo ao Queda Segura --");
+  pinMode(2, OUTPUT);
+  //Serial.println("-- Bem Vindo ao Queda Segura --");
+  
+  WiFi.mode(WIFI_STA);
+
+  WiFi.begin(WIFI_NAME, WIFI_PASS);
+
+
+  while(WiFi.status() != WL_CONNECTED){
+    delay(100);
+  }
+
+  //Serial.println(WiFi.localIP());
 }
 
 void loop(){
-
-  
+  digitalWrite(2, HIGH);
+  delay(5000);
 }
