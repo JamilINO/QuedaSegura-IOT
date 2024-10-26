@@ -24,7 +24,9 @@
 void setup(){
   Serial.begin(115200);
   pinMode(2, OUTPUT);
-  //Serial.println("-- Bem Vindo ao Queda Segura --");
+
+  delay(1000);
+  Serial.println("-- Bem Vindo ao Queda Segura --");
   
   WiFi.mode(WIFI_STA);
 
@@ -33,12 +35,33 @@ void setup(){
 
   while(WiFi.status() != WL_CONNECTED){
     delay(100);
+    Serial.write(".");
   }
 
-  //Serial.println(WiFi.localIP());
+  HTTPClient http;
+
+  //http.begin("http://0.0.0.0:7777");
+  http.begin("https://teste-py-5w58.onrender.com");
+
+  int httpCode = http.POST("Teste do esp32");
+
+  if (httpCode == HTTP_CODE_OK) {
+    String payload = http.getString();
+    delay(1000);
+    Serial.println(payload);
+  }
+  else{
+    delay(1000);
+    Serial.println("Error");
+  }
+  delay(1000);
 }
 
 void loop(){
   digitalWrite(2, HIGH);
-  delay(5000);
+  delay(1000);
+  digitalWrite(2, LOW);
+  delay(1000);
+  Serial.println(WiFi.localIP());
+  delay(1000);
 }
